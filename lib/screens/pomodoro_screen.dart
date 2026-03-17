@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/screens/history_screen.dart';
+import 'package:pomodoro/widgets/bottomControls.dart';
+import 'package:pomodoro/widgets/motivationCard.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/backButton.dart';
 import 'package:pomodoro/widgets/tomato_timer.dart';
+import 'package:pomodoro/widgets/topBar.dart';
 
 class PomodoroScreen extends StatelessWidget {
   const PomodoroScreen({super.key});
@@ -18,9 +21,14 @@ class PomodoroScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 10),
-                SizedBox(height: 10),
+                TopBar(),
+                SizedBox(height: 40),
                 TomatoTimer(time: "25:00"),
-                SizedBox(height: 60),
+                const Spacer(flex: 2),
+                MotivationCard(),
+                const Spacer(flex: 1),
+                BottomControls(),
+                const SizedBox(height: 25),
               ],
             ),
           ),

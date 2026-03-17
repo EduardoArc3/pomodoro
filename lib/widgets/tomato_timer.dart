@@ -23,8 +23,8 @@ class TomatoTimer extends StatelessWidget {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset("assets/images/tomatoes/t1.png", width: 90),
-            const SizedBox(height: 10),
+            Image.asset("assets/images/tomatoes/t1.png", width: 110),
+            const SizedBox(height: 20),
             Text(
               time,
               style: GoogleFonts.patrickHand(

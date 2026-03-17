@@ -21,7 +21,7 @@ class BackButtonn extends StatelessWidget {
             boxShadow: const [
               BoxShadow(
                 color: Color.fromARGB(255, 155, 154, 154),
-                offset: Offset(2, 2),
+                offset: Offset(3, 3),
               ),
             ],
           ),
