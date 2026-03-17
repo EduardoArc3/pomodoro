@@ -5,6 +5,7 @@ import 'package:pomodoro/widgets/timeSection.dart';
 import 'package:pomodoro/widgets/backButton.dart';
 import 'package:pomodoro/widgets/iconClock.dart';
 import 'package:pomodoro/screens/home_screen.dart';
+import 'package:pomodoro/screens/pomodoro_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -153,25 +154,34 @@ class _SettingScreen extends State<SettingScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 25),
+                SizedBox(height: 25),
 
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 17),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE65A4F),
-                    border: Border.all(color: Colors.black, width: 5),
-                    boxShadow: const [
-                      BoxShadow(color: Colors.black, offset: Offset(4, 4)),
-                    ],
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "¡Comenzar! 🍅",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PomodoroScreen()),
+                    );
+                  },
+
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 17),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFE65A4F),
+                      border: Border.all(color: Colors.black, width: 5),
+                      boxShadow: const [
+                        BoxShadow(color: Colors.black, offset: Offset(4, 4)),
+                      ],
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "¡Comenzar! 🍅",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

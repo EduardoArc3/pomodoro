@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/screens/history_screen.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/backButton.dart';
+import 'package:pomodoro/widgets/tomato_timer.dart';
 
 class PomodoroScreen extends StatelessWidget {
   const PomodoroScreen({super.key});
@@ -17,23 +18,9 @@ class PomodoroScreen extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 10),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    BackButtonn(
-                      icon: Icons.arrow_back,
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SettingScreen(),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                SizedBox(height: 10),
+                TomatoTimer(time: "25:00"),
+                SizedBox(height: 60),
               ],
             ),
           ),
