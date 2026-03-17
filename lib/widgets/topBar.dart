@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:pomodoro/widgets/backButton.dart';
 import 'package:pomodoro/widgets/closeButton.dart';
 import 'package:pomodoro/widgets/cycleTop.dart';
+import 'package:pomodoro/screens/pomodoro_screen.dart';
 
 class TopBar extends StatelessWidget {
-  const TopBar({super.key});
+  final int currentCycle;
+  final int totalCycles;
+
+  const TopBar({
+    super.key,
+    required this.currentCycle,
+    required this.totalCycles,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +25,7 @@ class TopBar extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        CycleTop(),
+        CycleTop(currentCycle: 1, totalCycles: totalCycles),
         CloseButtonn(),
       ],
     );

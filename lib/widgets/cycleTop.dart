@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CycleTop extends StatelessWidget {
-  const CycleTop({super.key});
+  final int currentCycle;
+  final int totalCycles;
+
+  const CycleTop({
+    super.key,
+    required this.currentCycle,
+    required this.totalCycles,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +21,12 @@ class CycleTop extends StatelessWidget {
           color: Colors.white,
           border: Border.all(color: const Color(0xFFF5A623), width: 4),
           borderRadius: BorderRadius.circular(4),
+          boxShadow: const [
+            BoxShadow(color: Colors.black, offset: Offset(3, 3), blurRadius: 0),
+          ],
         ),
         child: Text(
-          "Ciclo 1 de 4",
+          "Ciclo $currentCycle de $totalCycles",
           style: GoogleFonts.patrickHand(fontSize: 18, color: Colors.black87),
         ),
       ),

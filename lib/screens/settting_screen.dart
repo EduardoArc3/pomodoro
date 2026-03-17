@@ -160,7 +160,13 @@ class _SettingScreen extends State<SettingScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PomodoroScreen()),
+                      MaterialPageRoute(
+                        builder: (context) => PomodoroScreen(
+                          workTime: workTime,
+                          breakTime: breakTime,
+                          cycles: cycles,
+                        ),
+                      ),
                     );
                   },
 
