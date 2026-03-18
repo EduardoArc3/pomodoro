@@ -40,9 +40,17 @@ class DatabaseService {
     return await db.insert('history_records', record.toMap());
   }
 
-  Future<List<Map<String, dynamic>>> queryAllRecords() async {
+  Future<List<HistoryRecord>> queryAllRecords() async {
     Database db = await instance.db;
-    return await db.query('history_records');
+
+    final List<Map<String, dynamic>> maps = await db.query(
+      'history_records',
+      orderBy: 'isPinned DESC, date DESC',
+    );
+
+    return List.generate(maps.length, (i) {
+      return HistoryRecord.fromMap(maps[i]);
+    });
   }
 
   // pinnear o despinnear
