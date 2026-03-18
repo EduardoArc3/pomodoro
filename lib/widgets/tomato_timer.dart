@@ -7,6 +7,18 @@ class TomatoTimer extends StatelessWidget {
 
   const TomatoTimer({super.key, required this.time, required this.progress});
 
+  String getTomatoImage(double progress) {
+    if (progress > 0.75) {
+      return "assets/images/tomatoes/t1.png";
+    } else if (progress > 0.5) {
+      return "assets/images/tomatoes/tómate 2.png";
+    } else if (progress > 0.25) {
+      return "assets/images/tomatoes/tómate 3.png";
+    } else {
+      return "assets/images/tomatoes/tómate 4.png";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -31,7 +43,14 @@ class TomatoTimer extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset("assets/images/tomatoes/t1.png", width: size * 0.4),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: Image.asset(
+                    getTomatoImage(progress),
+                    key: ValueKey(getTomatoImage(progress)),
+                    width: size * 0.35,
+                  ),
+                ),
 
                 SizedBox(height: size * 0.08),
 
