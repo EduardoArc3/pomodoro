@@ -126,7 +126,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           return Record(
                             title: record.title,
                             description: record.description,
-                            date: formatDate(record.date.toString()),
+                            date: formatDate(record.date),
                             completed: record.isCompleted,
                             cycles: record.cycles,
                             totalTime: record.totalTime,

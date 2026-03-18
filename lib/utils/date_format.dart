@@ -1,10 +1,9 @@
 import 'package:intl/intl.dart';
 
 // transforma fecha a formato 18 Mar 2026
-String formatDate(String date) {
+String formatDate(DateTime date) {
   try {
-    DateTime parsedDate = DateFormat('dd_MM_yy').parse(date);
-    String newDate = DateFormat('dd MMM yyyy', 'es').format(parsedDate);
+    String newDate = DateFormat('dd MMM yyyy', 'es').format(date);
 
     List<String> parts = newDate.split(' ');
     if (parts.length == 3) {
@@ -15,6 +14,6 @@ String formatDate(String date) {
 
     return newDate;
   } catch (e) {
-    return date;
+    return date.toString();
   }
 }

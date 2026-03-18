@@ -1,11 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pomodoro/models/history_record.dart';
+import 'package:pomodoro/services/database_service.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/pomodoro_button.dart';
 import 'package:pomodoro/widgets/text_input.dart';
 
-class FinishScreen extends StatelessWidget {
-  const FinishScreen({super.key});
+class FinishScreen extends StatefulWidget {
+  final int completedCycles;
+  final int totalCycles;
+  final int workTimePerCycle;
+  final int breakTimePerCycle;
+
+  const FinishScreen({
+    super.key,
+    required this.completedCycles,
+    required this.totalCycles,
+    required this.workTimePerCycle,
+    required this.breakTimePerCycle,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _FinishScreenState();
+}
+
+class _FinishScreenState extends State<FinishScreen> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descController = TextEditingController();
+
+  Future<void> _saveAndExit() async {
+    String title = _titleController.text.trim();
+    if (title.isEmpty) title = "Sesión sin título";
+
+    String desc = _descController.text.trim();
+    int totalTime = widget.workTimePerCycle * widget.completedCycles;
+
+    final newRecord = HistoryRecord(
+      title: title,
+      description: desc,
+      date: DateTime.now(),
+      isCompleted: widget.completedCycles == widget.totalCycles,
+      cycles: "${widget.completedCycles}/${widget.totalCycles}",
+      totalTime: totalTime,
+      isPinned: false,
+    );
+
+    await DatabaseService.instance.insertRecord(newRecord);
+
+    if (mounted) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    }
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,19 +189,23 @@ class FinishScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           // ciclos
-                          _buildInfoCard("Ciclos", "8/8", Color(0xFFA7D7C5)),
+                          _buildInfoCard(
+                            "Ciclos",
+                            "${widget.completedCycles}/${widget.totalCycles}",
+                            Color(0xFFA7D7C5),
+                          ),
 
                           // trabajo
                           _buildInfoCard(
                             "Trabajo",
-                            "200 min",
+                            "${widget.workTimePerCycle * widget.completedCycles}",
                             Color(0xFFFF5C5C),
                           ),
 
                           // descanso
                           _buildInfoCard(
                             "Descanso",
-                            "20 min",
+                            "${widget.breakTimePerCycle * widget.completedCycles}",
                             Color(0xFFFFB84D),
                           ),
                         ],
@@ -169,6 +225,7 @@ class FinishScreen extends StatelessWidget {
                       ),
 
                       TextInput(
+                        controller: _titleController,
                         hintText: "Ej. Estudiar para examen",
                         borderColor: Color(0xFFA7D7C5),
                       ),
@@ -185,6 +242,7 @@ class FinishScreen extends StatelessWidget {
                       ),
 
                       TextInput(
+                        controller: _descController,
                         hintText: "Describe tu sesión...",
                         borderColor: Color(0xFFA7D7C5),
                         maxLines: 4,
@@ -221,7 +279,7 @@ class FinishScreen extends StatelessWidget {
                               color: Colors.white,
                               backgroundColor: Color(0xFFFF5C5C),
                               text: "Guardar y salir",
-                              onTap: () {},
+                              onTap: _saveAndExit,
                             ),
                           ),
                         ],
