@@ -79,7 +79,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       border: Border.all(color: Color(0xFFE65A4F), width: 5),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                           offset: Offset(3, 3),
                           blurRadius: 0,
                         ),
