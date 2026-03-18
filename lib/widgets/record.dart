@@ -25,7 +25,7 @@ class Record extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200.withValues(alpha: 0.9),
+        color: Colors.white.withValues(alpha: 0.95),
         border: Border.all(color: color, width: 5),
         boxShadow: [
           BoxShadow(

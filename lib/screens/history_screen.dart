@@ -9,7 +9,7 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE9E4DD),
+      backgroundColor: const Color(0xFFFFF8F0),
       body: NotebookBackground(
         child: SafeArea(
           child: Column(
