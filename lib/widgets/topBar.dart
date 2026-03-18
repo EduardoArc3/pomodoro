@@ -29,7 +29,7 @@ class TopBar extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        CycleTop(currentCycle: 1, totalCycles: totalCycles),
+        CycleTop(currentCycle: currentCycle, totalCycles: totalCycles),
         CloseButtonn(
           onTap: () {
             Navigator.push(

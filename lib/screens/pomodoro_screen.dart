@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:pomodoro/services/timer_service.dart';
 import 'package:pomodoro/widgets/bottomControls.dart';
 import 'package:pomodoro/widgets/motivationCard.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
@@ -27,50 +29,56 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   late int remainingSeconds;
   int currentCycle = 1;
 
-  Timer? timer;
   bool isRunning = false;
   bool isBreak = false;
+
+  StreamSubscription? _updateSubscription;
+  StreamSubscription? _finishSubscription;
 
   @override
   void initState() {
     super.initState();
     remainingSeconds = widget.workTime * 60;
+
+    _updateSubscription = FlutterBackgroundService().on('update').listen((
+      event,
+    ) {
+      if (mounted && event != null) {
+        setState(() {
+          remainingSeconds = event['seconds'];
+        });
+      }
+    });
+
+    _finishSubscription = FlutterBackgroundService().on('timerFinished').listen(
+      (event) {
+        if (mounted) {
+          setState(() {
+            isRunning = false;
+          });
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BreakScreen(
+                workTime: widget.workTime,
+                breakTime: widget.breakTime,
+                currentCycle: currentCycle,
+                totalCycles: widget.cycles,
+              ),
+            ),
+          );
+        }
+      },
+    );
   }
 
   void startTimer() {
-    timer?.cancel();
-
-    timer = Timer.periodic(const Duration(seconds: 1), (t) {
-      if (!mounted) return;
-
-      if (remainingSeconds > 0) {
-        setState(() {
-          remainingSeconds--;
-        });
-      } else {
-        t.cancel();
-
-        setState(() {
-          isRunning = false;
-        });
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => BreakScreen(
-              workTime: widget.workTime,
-              breakTime: widget.breakTime,
-              currentCycle: currentCycle,
-              totalCycles: widget.cycles,
-            ),
-          ),
-        );
-      }
-    });
+    TimerService().startTimer(remainingSeconds);
   }
 
   void resetTimer() {
-    timer?.cancel();
+    TimerService().stopTimer();
 
     setState(() {
       remainingSeconds = widget.workTime * 60;
@@ -82,7 +90,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
 
   void toggleTimer() {
     if (isRunning) {
-      timer?.cancel();
+      TimerService().stopTimer();
     } else {
       startTimer();
     }
@@ -105,7 +113,9 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
 
   @override
   void dispose() {
-    timer?.cancel();
+    _updateSubscription?.cancel();
+    _finishSubscription?.cancel();
+    TimerService().stopTimer();
     super.dispose();
   }
 
