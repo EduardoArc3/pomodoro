@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -36,7 +35,7 @@ class TimerService {
       androidConfiguration: AndroidConfiguration(
         onStart: onStart,
         isForegroundMode: true,
-        autoStart: true,
+        autoStart: false,
         notificationChannelId: 'pomodoro_timer_channel',
         initialNotificationContent: 'Iniciando sesión...',
         initialNotificationTitle: 'Pomodoro',
@@ -45,13 +44,23 @@ class TimerService {
     );
   }
 
-  void startTimer(int seconds) {
-    service.startService();
+  Future<void> startTimer(int seconds) async {
+    bool isRunning = await service.isRunning();
+
+    if (!isRunning) {
+      await service.startService();
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+
     service.invoke('setTimer', {'seconds': seconds});
   }
 
-  void stopTimer() {
-    service.invoke('stopService');
+  void pauseTimer() {
+    service.invoke('pauseTimer');
+  }
+
+  void killService() {
+    service.invoke('killService');
   }
 }
 
@@ -70,7 +79,7 @@ void onStart(ServiceInstance service) async {
       remainingSeconds = event['seconds']!;
 
       timer?.cancel();
-      timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      timer = Timer.periodic(const Duration(seconds: 1), (t) async {
         if (remainingSeconds > 0) {
           remainingSeconds--;
 
@@ -92,14 +101,14 @@ void onStart(ServiceInstance service) async {
               android: AndroidNotificationDetails(
                 'pomodoro_timer_channel',
                 'Pomodoro Timer',
-                icon: 'ic_bg_service_small',
+                icon: '@mipmap/ic_launcher',
                 ongoing: true,
                 onlyAlertOnce: true,
               ),
             ),
           );
         } else {
-          timer.cancel();
+          t.cancel();
           service.invoke('timerFinished');
 
           flutterLocalNotificationsPlugin.show(
@@ -115,14 +124,16 @@ void onStart(ServiceInstance service) async {
               ),
             ),
           );
-
-          service.stopSelf();
         }
       });
     }
   });
 
-  service.on('stopService').listen((event) {
+  service.on('pauseTimer').listen((event) {
+    timer?.cancel();
+  });
+
+  service.on('killService').listen((event) {
     timer?.cancel();
     service.stopSelf();
   });

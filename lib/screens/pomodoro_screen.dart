@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:pomodoro/screens/history_screen.dart';
 import 'package:pomodoro/services/timer_service.dart';
 import 'package:pomodoro/widgets/bottomControls.dart';
 import 'package:pomodoro/widgets/motivationCard.dart';
@@ -13,12 +14,14 @@ class PomodoroScreen extends StatefulWidget {
   final int workTime;
   final int breakTime;
   final int cycles;
+  final int currentCycle;
 
   const PomodoroScreen({
     super.key,
     required this.workTime,
     required this.breakTime,
     required this.cycles,
+    required this.currentCycle,
   });
 
   @override
@@ -27,7 +30,7 @@ class PomodoroScreen extends StatefulWidget {
 
 class _PomodoroScreenState extends State<PomodoroScreen> {
   late int remainingSeconds;
-  int currentCycle = 1;
+  late int currentCycle;
 
   bool isRunning = false;
   bool isBreak = false;
@@ -39,6 +42,8 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   void initState() {
     super.initState();
     remainingSeconds = widget.workTime * 60;
+
+    currentCycle = widget.currentCycle;
 
     _updateSubscription = FlutterBackgroundService().on('update').listen((
       event,
@@ -78,7 +83,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   }
 
   void resetTimer() {
-    TimerService().stopTimer();
+    TimerService().pauseTimer();
 
     setState(() {
       remainingSeconds = widget.workTime * 60;
@@ -90,7 +95,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
 
   void toggleTimer() {
     if (isRunning) {
-      TimerService().stopTimer();
+      TimerService().pauseTimer();
     } else {
       startTimer();
     }
@@ -101,7 +106,10 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   }
 
   void goToHistory() {
-    print("Historial");
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => HistoryScreen()),
+    );
   }
 
   String formatTime(int seconds) {
@@ -115,7 +123,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   void dispose() {
     _updateSubscription?.cancel();
     _finishSubscription?.cancel();
-    TimerService().stopTimer();
+    TimerService().pauseTimer();
     super.dispose();
   }
 

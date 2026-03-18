@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:pomodoro/screens/pomodoro_screen.dart';
+import 'package:pomodoro/services/timer_service.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/topBar.dart';
 import 'package:pomodoro/widgets/bottomControls.dart';
 import 'package:pomodoro/widgets/motivationCard.dart';
-import 'package:pomodoro/screens/finishSesion.dart';
 import 'package:pomodoro/screens/finish_screen.dart';
 
 class BreakScreen extends StatefulWidget {
@@ -27,55 +29,74 @@ class BreakScreen extends StatefulWidget {
 
 class _BreakScreenState extends State<BreakScreen> {
   late int remainingSeconds;
-  Timer? timer;
   bool isRunning = false;
+
+  StreamSubscription? _updateSubscription;
+  StreamSubscription? _finishSubscription;
 
   @override
   void initState() {
     super.initState();
     remainingSeconds = widget.breakTime * 60;
+
+    _updateSubscription = FlutterBackgroundService().on('update').listen((
+      event,
+    ) {
+      if (mounted && event != null) {
+        setState(() {
+          remainingSeconds = event['seconds'];
+        });
+      }
+    });
+
+    _finishSubscription = FlutterBackgroundService().on('timerFinished').listen(
+      (event) {
+        if (mounted) {
+          setState(() {
+            isRunning = false;
+          });
+          _handleBreakFinished();
+        }
+      },
+    );
+  }
+
+  void _handleBreakFinished() {
+    if (widget.currentCycle < widget.totalCycles) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PomodoroScreen(
+            workTime: widget.workTime,
+            breakTime: widget.breakTime,
+            cycles: widget.totalCycles,
+            currentCycle: widget.currentCycle + 1,
+          ),
+        ),
+      );
+    } else {
+      TimerService().killService();
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => FinishScreen(
+            completedCycles: widget.totalCycles,
+            totalCycles: widget.totalCycles,
+            workTimePerCycle: widget.workTime,
+            breakTimePerCycle: widget.breakTime,
+          ),
+        ),
+      );
+    }
   }
 
   void startTimer() {
-    timer?.cancel();
-
-    if (remainingSeconds > 0) {
-      setState(() {
-        remainingSeconds--;
-      });
-    }
-
-    timer = Timer.periodic(const Duration(seconds: 1), (t) {
-      if (!mounted) return;
-
-      if (remainingSeconds > 0) {
-        setState(() {
-          remainingSeconds--;
-        });
-      } else {
-        t.cancel();
-
-        setState(() {
-          isRunning = false;
-        });
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => FinishScreen(
-              completedCycles: widget.currentCycle,
-              totalCycles: widget.totalCycles,
-              workTimePerCycle: 25,
-              breakTimePerCycle: widget.breakTime,
-            ),
-          ),
-        );
-      }
-    });
+    TimerService().startTimer(remainingSeconds);
   }
 
   void resetTimer() {
-    timer?.cancel();
+    TimerService().pauseTimer();
 
     setState(() {
       remainingSeconds = widget.breakTime * 60;
@@ -85,7 +106,7 @@ class _BreakScreenState extends State<BreakScreen> {
 
   void toggleTimer() {
     if (isRunning) {
-      timer?.cancel();
+      TimerService().pauseTimer();
     } else {
       startTimer();
     }
@@ -104,7 +125,9 @@ class _BreakScreenState extends State<BreakScreen> {
 
   @override
   void dispose() {
-    timer?.cancel();
+    _updateSubscription?.cancel();
+    _finishSubscription?.cancel();
+    TimerService().pauseTimer();
     super.dispose();
   }
 
@@ -141,6 +164,8 @@ class _BreakScreenState extends State<BreakScreen> {
                 child: TopBar(
                   currentCycle: widget.currentCycle,
                   totalCycles: widget.totalCycles,
+                  workTimePerCycle: widget.workTime,
+                  breakTimePerCycle: widget.breakTime,
                 ),
               ),
 

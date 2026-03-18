@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro/screens/finish_screen.dart';
+import 'package:pomodoro/services/timer_service.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/buttonsFinalSesion.dart';
 
@@ -185,6 +186,7 @@ class FinishSesion extends StatelessWidget {
                         color: Colors.white,
                       ),
                       onTap: () {
+                        TimerService().killService();
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

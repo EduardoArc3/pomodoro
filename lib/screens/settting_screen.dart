@@ -176,6 +176,7 @@ class _SettingScreen extends State<SettingScreen> {
                           workTime: workTime,
                           breakTime: breakTime,
                           cycles: cycles,
+                          currentCycle: 1,
                         ),
                       ),
                     );

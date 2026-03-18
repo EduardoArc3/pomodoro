@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pomodoro/screens/finishSesion.dart';
+import 'package:pomodoro/services/timer_service.dart';
 import 'package:pomodoro/widgets/backButton.dart';
 import 'package:pomodoro/widgets/closeButton.dart';
 import 'package:pomodoro/widgets/cycleTop.dart';
@@ -26,6 +27,7 @@ class TopBar extends StatelessWidget {
         BackButtonn(
           icon: Icons.arrow_back,
           onTap: () {
+            TimerService().killService();
             Navigator.pop(context);
           },
         ),
