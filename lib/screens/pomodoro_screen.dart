@@ -5,6 +5,7 @@ import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/tomato_timer.dart';
 import 'package:pomodoro/widgets/topBar.dart';
 import 'dart:async';
+import 'package:pomodoro/screens/breakScreen.dart';
 
 class PomodoroScreen extends StatefulWidget {
   final int workTime;
@@ -39,12 +40,6 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   void startTimer() {
     timer?.cancel();
 
-    if (remainingSeconds > 0) {
-      setState(() {
-        remainingSeconds--;
-      });
-    }
-
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (!mounted) return;
 
@@ -57,22 +52,18 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
 
         setState(() {
           isRunning = false;
-
-          if (!isBreak) {
-            isBreak = true;
-            remainingSeconds = widget.breakTime * 60;
-          } else {
-            isBreak = false;
-            currentCycle++;
-
-            if (currentCycle > widget.cycles) {
-              print("Pomodoro terminado");
-              return;
-            }
-
-            remainingSeconds = widget.workTime * 60;
-          }
         });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BreakScreen(
+              breakTime: widget.breakTime,
+              currentCycle: currentCycle,
+              totalCycles: widget.cycles,
+            ),
+          ),
+        );
       }
     });
   }

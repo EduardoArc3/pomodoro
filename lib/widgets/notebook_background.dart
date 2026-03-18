@@ -2,14 +2,19 @@ import 'package:flutter/material.dart';
 
 class NotebookBackground extends StatelessWidget {
   final Widget child;
+  final Color? overlayColor;
 
-  const NotebookBackground({super.key, required this.child});
+  const NotebookBackground({super.key, required this.child, this.overlayColor});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         CustomPaint(painter: _NotebookPainter(), size: Size.infinite),
+
+        if (overlayColor != null)
+          Container(color: overlayColor!.withValues(alpha: 0.4)),
+
         child,
       ],
     );
