@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/screens/finishSesion.dart';
 import 'package:pomodoro/widgets/backButton.dart';
 import 'package:pomodoro/widgets/closeButton.dart';
 import 'package:pomodoro/widgets/cycleTop.dart';
-import 'package:pomodoro/screens/pomodoro_screen.dart';
 
 class TopBar extends StatelessWidget {
   final int currentCycle;
@@ -26,7 +26,21 @@ class TopBar extends StatelessWidget {
           },
         ),
         CycleTop(currentCycle: 1, totalCycles: totalCycles),
-        CloseButtonn(),
+        CloseButtonn(
+          onTap: () {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                opaque: false,
+                barrierColor: Colors.transparent,
+                pageBuilder: (_, __, ___) => const FinishSesion(),
+                transitionsBuilder: (_, animation, __, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+              ),
+            );
+          },
+        ),
       ],
     );
   }

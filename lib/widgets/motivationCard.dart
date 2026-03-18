@@ -20,7 +20,7 @@ class MotivationCard extends StatelessWidget {
           "¡Tú puedes!",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 22,
             color: Colors.white,
           ),
         ),
