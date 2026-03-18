@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro/screens/home_screen.dart';
 
 void main() {
@@ -16,6 +17,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(textTheme: GoogleFonts.patrickHandTextTheme()),
       debugShowCheckedModeBanner: false,
       home: Initialsplash(),
     );

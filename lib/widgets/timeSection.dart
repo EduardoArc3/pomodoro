@@ -22,15 +22,14 @@ class TimeSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title),
+        Text(title, style: TextStyle(fontSize: 15)),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CircleAction(text: "-", color: color, onTap: onMinus),
             Container(
-              width: 140,
-              padding: const EdgeInsets.symmetric(vertical: 14),
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 80),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 border: Border.all(color: color, width: 4),
@@ -38,7 +37,7 @@ class TimeSection extends StatelessWidget {
               child: Text(
                 "$value",
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: color,
                 ),

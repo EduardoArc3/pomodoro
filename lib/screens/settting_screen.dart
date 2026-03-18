@@ -66,7 +66,7 @@ class _SettingScreen extends State<SettingScreen> {
                   "¡Trabaja con enfoque y descansa con \n propósito!",
                   textAlign: TextAlign.center,
 
-                  style: TextStyle(fontSize: 14, color: Colors.blue),
+                  style: TextStyle(fontSize: 17, color: Colors.blue),
                 ),
                 const SizedBox(height: 20),
 
@@ -92,7 +92,7 @@ class _SettingScreen extends State<SettingScreen> {
                       Text(
                         "Configura tu sesión",
                         style: GoogleFonts.patrickHand(
-                          fontSize: 22,
+                          fontSize: 23,
                           color: const Color(0xFFE65A4F),
                         ),
                       ),
@@ -172,12 +172,12 @@ class _SettingScreen extends State<SettingScreen> {
 
                   child: Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 17),
+                    padding: const EdgeInsets.symmetric(vertical: 22),
                     decoration: BoxDecoration(
                       color: const Color(0xFFE65A4F),
                       border: Border.all(color: Colors.black, width: 5),
                       boxShadow: const [
-                        BoxShadow(color: Colors.black, offset: Offset(4, 4)),
+                        BoxShadow(color: Colors.black, offset: Offset(6, 6)),
                       ],
                     ),
                     child: const Center(

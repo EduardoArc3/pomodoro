@@ -17,8 +17,8 @@ class CircleAction extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 45,
-        height: 45,
+        width: 55,
+        height: 55,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: color,

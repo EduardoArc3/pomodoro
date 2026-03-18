@@ -3,38 +3,50 @@ import 'package:google_fonts/google_fonts.dart';
 
 class TomatoTimer extends StatelessWidget {
   final String time;
+  final double progress;
 
-  const TomatoTimer({super.key, required this.time});
+  const TomatoTimer({super.key, required this.time, required this.progress});
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: 250,
-          height: 250,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFFE65A4F), width: 17),
-          ),
-        ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = constraints.maxWidth;
 
-        Column(
-          mainAxisSize: MainAxisSize.min,
+        return Stack(
+          alignment: Alignment.center,
           children: [
-            Image.asset("assets/images/tomatoes/t1.png", width: 110),
-            const SizedBox(height: 20),
-            Text(
-              time,
-              style: GoogleFonts.patrickHand(
-                fontSize: 42,
-                color: const Color(0xFFE65A4F),
+            Container(
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: const Color(0xFFE65A4F),
+                  width: size * 0.07,
+                ),
               ),
             ),
+
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset("assets/images/tomatoes/t1.png", width: size * 0.4),
+
+                SizedBox(height: size * 0.08),
+
+                Text(
+                  time,
+                  style: GoogleFonts.patrickHand(
+                    fontSize: size * 0.17,
+                    color: const Color(0xFFE65A4F),
+                  ),
+                ),
+              ],
+            ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:pomodoro/widgets/motivationCard.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/tomato_timer.dart';
 import 'package:pomodoro/widgets/topBar.dart';
+import 'dart:async';
 
 class PomodoroScreen extends StatefulWidget {
   final int workTime;
@@ -25,23 +26,82 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   late int remainingSeconds;
   int currentCycle = 1;
 
+  Timer? timer;
+  bool isRunning = false;
+  bool isBreak = false;
+
   @override
   void initState() {
     super.initState();
     remainingSeconds = widget.workTime * 60;
-    startTimer();
   }
 
-  void startTimer() async {
-    while (remainingSeconds > 0) {
-      await Future.delayed(const Duration(seconds: 1));
+  void startTimer() {
+    timer?.cancel();
 
-      if (!mounted) return;
-
+    if (remainingSeconds > 0) {
       setState(() {
         remainingSeconds--;
       });
     }
+
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (!mounted) return;
+
+      if (remainingSeconds > 0) {
+        setState(() {
+          remainingSeconds--;
+        });
+      } else {
+        t.cancel();
+
+        setState(() {
+          isRunning = false;
+
+          if (!isBreak) {
+            isBreak = true;
+            remainingSeconds = widget.breakTime * 60;
+          } else {
+            isBreak = false;
+            currentCycle++;
+
+            if (currentCycle > widget.cycles) {
+              print("Pomodoro terminado");
+              return;
+            }
+
+            remainingSeconds = widget.workTime * 60;
+          }
+        });
+      }
+    });
+  }
+
+  void resetTimer() {
+    timer?.cancel();
+
+    setState(() {
+      remainingSeconds = widget.workTime * 60;
+      isRunning = false;
+      isBreak = false;
+      currentCycle = 1;
+    });
+  }
+
+  void toggleTimer() {
+    if (isRunning) {
+      timer?.cancel();
+    } else {
+      startTimer();
+    }
+
+    setState(() {
+      isRunning = !isRunning;
+    });
+  }
+
+  void goToHistory() {
+    print("Historial");
   }
 
   String formatTime(int seconds) {
@@ -52,30 +112,63 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   }
 
   @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final totalTime = isBreak ? widget.breakTime * 60 : widget.workTime * 60;
+
     return Scaffold(
       backgroundColor: const Color(0xFFE9E4DD),
       body: NotebookBackground(
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 10,
+                left: 20,
+                right: 20,
+                child: TopBar(
+                  currentCycle: currentCycle,
+                  totalCycles: widget.cycles,
+                ),
+              ),
 
-                TopBar(currentCycle: currentCycle, totalCycles: widget.cycles),
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: TomatoTimer(
+                        time: formatTime(remainingSeconds),
+                        progress: remainingSeconds / totalTime,
+                      ),
+                    ),
 
-                const SizedBox(height: 40),
+                    const SizedBox(height: 100),
 
-                TomatoTimer(time: formatTime(remainingSeconds)),
+                    MotivationCard(),
+                  ],
+                ),
+              ),
 
-                const Spacer(flex: 2),
-                MotivationCard(),
-                const Spacer(flex: 1),
-                BottomControls(),
-                const SizedBox(height: 25),
-              ],
-            ),
+              Positioned(
+                bottom: 70,
+                left: 20,
+                right: 20,
+                child: BottomControls(
+                  onReset: resetTimer,
+                  onPlayPause: toggleTimer,
+                  onHistory: goToHistory,
+                  isRunning: isRunning,
+                ),
+              ),
+            ],
           ),
         ),
       ),

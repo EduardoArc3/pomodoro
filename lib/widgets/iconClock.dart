@@ -15,15 +15,10 @@ class iconClock extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.orange.shade200,
+            color: Colors.transparent,
             shape: BoxShape.circle,
             border: Border.all(color: Colors.orange, width: 4),
-            boxShadow: const [
-              BoxShadow(
-                color: Color.fromARGB(255, 155, 154, 154),
-                offset: Offset(2, 2),
-              ),
-            ],
+            boxShadow: const [],
           ),
           child: Icon(icon, size: 20, color: Colors.orange.shade800),
         ),
