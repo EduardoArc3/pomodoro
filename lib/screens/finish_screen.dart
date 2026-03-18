@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro/models/history_record.dart';
+import 'package:pomodoro/screens/history_screen.dart';
 import 'package:pomodoro/services/database_service.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/pomodoro_button.dart';
@@ -48,7 +49,10 @@ class _FinishScreenState extends State<FinishScreen> {
     await DatabaseService.instance.insertRecord(newRecord);
 
     if (mounted) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HistoryScreen()),
+      );
     }
   }
 
