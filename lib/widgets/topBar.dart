@@ -7,11 +7,15 @@ import 'package:pomodoro/widgets/cycleTop.dart';
 class TopBar extends StatelessWidget {
   final int currentCycle;
   final int totalCycles;
+  final int workTimePerCycle;
+  final int breakTimePerCycle;
 
   const TopBar({
     super.key,
     required this.currentCycle,
     required this.totalCycles,
+    required this.workTimePerCycle,
+    required this.breakTimePerCycle,
   });
 
   @override
@@ -33,8 +37,13 @@ class TopBar extends StatelessWidget {
               PageRouteBuilder(
                 opaque: false,
                 barrierColor: Colors.transparent,
-                pageBuilder: (_, __, ___) => const FinishSesion(),
-                transitionsBuilder: (_, animation, __, child) {
+                pageBuilder: (_, _, _) => FinishSesion(
+                  currentCycle: currentCycle,
+                  totalCycles: totalCycles,
+                  workTimePerCycle: workTimePerCycle,
+                  breakTimePerCycle: breakTimePerCycle,
+                ),
+                transitionsBuilder: (_, animation, _, child) {
                   return FadeTransition(opacity: animation, child: child);
                 },
               ),

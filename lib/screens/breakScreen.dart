@@ -6,11 +6,13 @@ import 'package:pomodoro/widgets/motivationCard.dart';
 
 class BreakScreen extends StatelessWidget {
   final int breakTime;
+  final int workTime;
   final int currentCycle;
   final int totalCycles;
 
   const BreakScreen({
     super.key,
+    required this.workTime,
     required this.breakTime,
     required this.currentCycle,
     required this.totalCycles,
@@ -20,7 +22,7 @@ class BreakScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NotebookBackground(
-        overlayColor: const Color(0xFF7DC9A8),
+        overlayColor: const Color(0xFFF0FFF8),
         child: SafeArea(
           child: Stack(
             children: [
@@ -49,6 +51,8 @@ class BreakScreen extends StatelessWidget {
                 child: TopBar(
                   currentCycle: currentCycle,
                   totalCycles: totalCycles,
+                  workTimePerCycle: workTime,
+                  breakTimePerCycle: breakTime,
                 ),
               ),
 

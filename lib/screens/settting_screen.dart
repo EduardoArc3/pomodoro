@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pomodoro/screens/history_screen.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/timeSection.dart';
 import 'package:pomodoro/widgets/backButton.dart';
@@ -45,7 +46,17 @@ class _SettingScreen extends State<SettingScreen> {
                         );
                       },
                     ),
-                    iconClock(icon: Icons.history, onTap: () {}),
+                    iconClock(
+                      icon: Icons.history,
+                      onTap: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HistoryScreen(),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
 

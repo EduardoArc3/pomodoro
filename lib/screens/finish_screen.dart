@@ -61,6 +61,15 @@ class _FinishScreenState extends State<FinishScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isFullyCompleted = widget.completedCycles == widget.totalCycles;
+
+    Color themeColor = isFullyCompleted
+        ? const Color(0xFFA7D7C5)
+        : const Color(0xFFFF5C5C);
+    Color bgColor = isFullyCompleted
+        ? Color(0xFFE8F5E9)
+        : const Color(0xFFFFE2E2);
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8F0),
       body: NotebookBackground(
@@ -73,7 +82,7 @@ class _FinishScreenState extends State<FinishScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Color(0xFFA7D7C5),
+                      color: themeColor,
                       border: Border.all(color: Colors.black, width: 5),
                       shape: BoxShape.circle,
                       boxShadow: [
@@ -85,7 +94,9 @@ class _FinishScreenState extends State<FinishScreen> {
                       ],
                     ),
                     child: Icon(
-                      Icons.check_circle_outline_rounded,
+                      isFullyCompleted
+                          ? Icons.check_circle_outline_rounded
+                          : Icons.close_rounded,
                       color: Colors.white,
                       size: 40,
                     ),
@@ -106,10 +117,7 @@ class _FinishScreenState extends State<FinishScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          border: Border.all(
-                            color: Color(0xFFA7D7C5),
-                            width: 5,
-                          ),
+                          border: Border.all(color: themeColor, width: 5),
                           boxShadow: const [
                             BoxShadow(
                               color: Colors.black,
@@ -119,10 +127,12 @@ class _FinishScreenState extends State<FinishScreen> {
                           ],
                         ),
                         child: Text(
-                          "¡Sesión completada!",
+                          isFullyCompleted
+                              ? "¡Sesión completada!"
+                              : "Sesión incompleta",
                           style: GoogleFonts.patrickHand(
                             fontSize: 30,
-                            color: Color(0xFFA7D7C5),
+                            color: themeColor,
                           ),
                         ),
                       ),
@@ -162,11 +172,8 @@ class _FinishScreenState extends State<FinishScreen> {
                           vertical: 20,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xFFE8F5E9),
-                          border: Border.all(
-                            color: Color(0xFFA7D7C5),
-                            width: 5,
-                          ),
+                          color: bgColor,
+                          border: Border.all(color: themeColor, width: 5),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.15),
@@ -176,7 +183,9 @@ class _FinishScreenState extends State<FinishScreen> {
                           ],
                         ),
                         child: Text(
-                          "¡Excelente trabajo! Completaste todos tus ciclos",
+                          isFullyCompleted
+                              ? "¡Excelente trabajo! Completaste todos tus ciclos"
+                              : "Sesión detenida. ¡Sigue intentándolo!",
                           style: GoogleFonts.patrickHand(
                             fontSize: 20,
                             color: Colors.black,
@@ -307,6 +316,7 @@ class _FinishScreenState extends State<FinishScreen> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

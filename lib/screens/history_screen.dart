@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro/models/history_record.dart';
+import 'package:pomodoro/screens/settting_screen.dart';
 import 'package:pomodoro/services/database_service.dart';
 import 'package:pomodoro/utils/date_format.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
@@ -17,6 +18,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
   List<HistoryRecord> _records = [];
   bool _isLoading = true;
 
+  int _totalCycles = 0;
+  int _totalMins = 0;
+  int _totalSessions = 0;
+
   @override
   void initState() {
     super.initState();
@@ -26,8 +31,25 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Future<void> _loadRecords() async {
     final data = await DatabaseService.instance.queryAllRecords();
 
+    int tempCycles = 0;
+    int tempMins = 0;
+
+    for (var record in data) {
+      if (record.cycles.contains('/')) {
+        int completedCycles = int.tryParse(record.cycles.split('/')[0]) ?? 0;
+        tempCycles += completedCycles;
+      } else {
+        tempCycles += int.tryParse(record.cycles) ?? 0;
+      }
+
+      tempMins += record.totalTime;
+    }
+
     setState(() {
       _records = data;
+      _totalSessions = data.length;
+      _totalMins = tempMins;
+      _totalCycles = tempCycles;
       _isLoading = false;
     });
   }
@@ -63,7 +85,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         ),
                       ],
                     ),
-                    child: BackButton(color: Color(0xFFE65A4F)),
+                    child: BackButton(
+                      color: Color(0xFFE65A4F),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SettingScreen(),
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -168,7 +200,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           Column(
                             children: [
                               Text(
-                                "16",
+                                "$_totalCycles",
                                 style: GoogleFonts.patrickHand(
                                   fontSize: 30,
                                   color: Color(0xFFE65A4F),
@@ -192,7 +224,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           Column(
                             children: [
                               Text(
-                                "400",
+                                "$_totalMins",
                                 style: GoogleFonts.patrickHand(
                                   fontSize: 30,
                                   color: Color(0xFFFFB84D),
@@ -216,7 +248,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           Column(
                             children: [
                               Text(
-                                "5",
+                                "$_totalSessions",
                                 style: GoogleFonts.patrickHand(
                                   fontSize: 30,
                                   color: Color(0xFF00C950),

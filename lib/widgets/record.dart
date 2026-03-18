@@ -107,113 +107,145 @@ class Record extends StatelessWidget {
   Widget build(BuildContext context) {
     Color color = completed ? Color(0xFF00C950) : Color(0xFFFF5C5C);
 
-    return GestureDetector(
-      onLongPress: () => _showContextMenu(context, color),
-      child: Container(
-        margin: EdgeInsets.only(bottom: 16.0),
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.95),
-          border: Border.all(color: color, width: 5),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              offset: Offset(3, 3),
-              blurRadius: 0,
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+    return Container(
+      margin: const EdgeInsets.only(bottom: 5.0, top: 10.0),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          GestureDetector(
+            onLongPress: () => _showContextMenu(context, color),
+            child: Container(
+              margin: EdgeInsets.only(bottom: 16.0),
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.95),
+                border: Border.all(color: color, width: 5),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    offset: Offset(3, 3),
+                    blurRadius: 0,
+                  ),
+                ],
+              ),
+              child: Row(
                 children: [
-                  completed
-                      ? Text(
-                          title,
-                          style: GoogleFonts.patrickHand(
-                            fontSize: 30,
-                            color: Colors.black,
-                          ),
-                        )
-                      : Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color(0xFFFFE2E2),
-                            border: Border.all(
-                              color: Color(0xFFFF5C5C),
-                              width: 2,
-                            ),
-                          ),
-                          child: Text(
-                            "Incompleto",
-                            style: GoogleFonts.patrickHand(
-                              fontSize: 20,
-                              color: Color(0xFFFF5C5C),
-                            ),
-                          ),
-                        ),
-                  const SizedBox(height: 10),
-                  IntrinsicHeight(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.calendar_today_outlined,
-                          color: color,
-                          size: 18,
-                        ),
-                        VerticalDivider(color: Color(0xFFD1D5DC), thickness: 1),
-                        Text(
-                          date,
-                          style: GoogleFonts.patrickHand(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                        ),
-                        VerticalDivider(color: Color(0xFFD1D5DC), thickness: 1),
-                        Text(
-                          "$cycles ciclos",
-                          style: GoogleFonts.patrickHand(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                        ),
-                        VerticalDivider(color: Color(0xFFD1D5DC), thickness: 1),
-                        Text(
-                          "$totalTime min",
-                          style: GoogleFonts.patrickHand(
-                            fontSize: 20,
-                            color: Colors.black,
+                        completed
+                            ? Text(
+                                title,
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 30,
+                                  color: Colors.black,
+                                ),
+                              )
+                            : Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFFE2E2),
+                                  border: Border.all(
+                                    color: Color(0xFFFF5C5C),
+                                    width: 2,
+                                  ),
+                                ),
+                                child: Text(
+                                  "Incompleto",
+                                  style: GoogleFonts.patrickHand(
+                                    fontSize: 20,
+                                    color: Color(0xFFFF5C5C),
+                                  ),
+                                ),
+                              ),
+                        const SizedBox(height: 10),
+                        IntrinsicHeight(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.calendar_today_outlined,
+                                color: color,
+                                size: 18,
+                              ),
+                              VerticalDivider(
+                                color: Color(0xFFD1D5DC),
+                                thickness: 1,
+                              ),
+                              Text(
+                                date,
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              VerticalDivider(
+                                color: Color(0xFFD1D5DC),
+                                thickness: 1,
+                              ),
+                              Text(
+                                "$cycles ciclos",
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              VerticalDivider(
+                                color: Color(0xFFD1D5DC),
+                                thickness: 1,
+                              ),
+                              Text(
+                                "$totalTime min",
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
+
+                  const SizedBox(width: 16),
+
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: color.withValues(alpha: 0.2),
+                      shape: BoxShape.circle,
+                      border: Border.all(color: color, width: 3),
+                    ),
+                    child: Icon(
+                      completed ? Icons.check_rounded : Icons.close_rounded,
+                      color: color,
+                    ),
+                  ),
                 ],
               ),
             ),
+          ),
 
-            const SizedBox(width: 16),
-
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: color.withValues(alpha: 0.2),
-                shape: BoxShape.circle,
-                border: Border.all(color: color, width: 3),
-              ),
-              child: Icon(
-                completed ? Icons.check_rounded : Icons.close_rounded,
-                color: color,
+          if (isPinned)
+            Positioned(
+              top: -15,
+              left: -15,
+              child: Transform.rotate(
+                angle: -0.15,
+                child: Image.asset(
+                  'assets/images/tomatoes/tomate_like.png',
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }

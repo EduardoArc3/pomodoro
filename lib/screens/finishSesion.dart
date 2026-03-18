@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pomodoro/screens/finish_screen.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/buttonsFinalSesion.dart';
 
 class FinishSesion extends StatelessWidget {
-  const FinishSesion({super.key});
+  final int currentCycle;
+  final int totalCycles;
+  final int workTimePerCycle;
+  final int breakTimePerCycle;
+
+  const FinishSesion({
+    super.key,
+    required this.currentCycle,
+    required this.totalCycles,
+    required this.workTimePerCycle,
+    required this.breakTimePerCycle,
+  });
 
   @override
   Widget build(BuildContext context) {
+    int completedCycles = currentCycle > 0 ? currentCycle - 1 : 0;
+    int workTime = completedCycles * workTimePerCycle;
+
     return Scaffold(
       backgroundColor: const Color(0xFFE9E4DD),
       body: NotebookBackground(
@@ -116,7 +131,7 @@ class FinishSesion extends StatelessWidget {
                           ),
                           SizedBox(height: 5),
                           Text(
-                            "0 de 8",
+                            "$completedCycles de $totalCycles",
                             style: GoogleFonts.patrickHand(
                               fontSize: 25,
                               color: Color(0xFF7DC9A8),
@@ -141,7 +156,7 @@ class FinishSesion extends StatelessWidget {
                           ),
                           SizedBox(height: 5),
                           Text(
-                            "0 min",
+                            "$workTime min",
                             style: GoogleFonts.patrickHand(
                               fontSize: 25,
                               color: Colors.red,
@@ -170,8 +185,17 @@ class FinishSesion extends StatelessWidget {
                         color: Colors.white,
                       ),
                       onTap: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FinishScreen(
+                              completedCycles: completedCycles,
+                              totalCycles: totalCycles,
+                              workTimePerCycle: workTimePerCycle,
+                              breakTimePerCycle: breakTimePerCycle,
+                            ),
+                          ),
+                        );
                       },
                     ),
                     const SizedBox(height: 30),

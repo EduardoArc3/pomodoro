@@ -58,6 +58,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
           context,
           MaterialPageRoute(
             builder: (_) => BreakScreen(
+              workTime: widget.workTime,
               breakTime: widget.breakTime,
               currentCycle: currentCycle,
               totalCycles: widget.cycles,
@@ -125,6 +126,8 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                 child: TopBar(
                   currentCycle: currentCycle,
                   totalCycles: widget.cycles,
+                  workTimePerCycle: widget.workTime,
+                  breakTimePerCycle: widget.breakTime,
                 ),
               ),
 
