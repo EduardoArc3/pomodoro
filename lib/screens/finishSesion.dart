@@ -25,7 +25,7 @@ class FinishSesion extends StatelessWidget {
     int workTime = completedCycles * workTimePerCycle;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFE9E4DD),
+      backgroundColor: const Color(0xFFFFF8F0),
       body: NotebookBackground(
         child: SafeArea(
           child: Stack(
@@ -38,7 +38,7 @@ class FinishSesion extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFE65A4F),
+                        color: const Color(0xFFFF5C5C),
                         shape: BoxShape.circle,
                         border: Border.all(color: Colors.black, width: 6),
                         boxShadow: const [
@@ -62,7 +62,7 @@ class FinishSesion extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(
-                            color: const Color(0xFFE65A4F),
+                            color: const Color(0xFFFF5C5C),
                             width: 4,
                           ),
                           boxShadow: const [
@@ -76,7 +76,7 @@ class FinishSesion extends StatelessWidget {
                           "¿Terminar sesión?",
                           style: GoogleFonts.patrickHand(
                             fontSize: 28,
-                            color: const Color(0xFFE65A4F),
+                            color: const Color(0xFFFF5C5C),
                           ),
                         ),
                       ),
@@ -91,14 +91,14 @@ class FinishSesion extends StatelessWidget {
                           horizontal: 12,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF4E1B6),
+                          color: const Color(0xFFFFE8CC),
                           border: Border.all(
-                            color: const Color.fromARGB(255, 244, 196, 124),
+                            color: const Color(0xFFFFB84D),
                             width: 3,
                           ),
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
-                              color: Colors.black,
+                              color: Colors.black.withValues(alpha: 0.2),
                               offset: Offset(3, 3),
                             ),
                           ],
@@ -119,7 +119,7 @@ class FinishSesion extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
-                          color: const Color(0xFF7DC9A8),
+                          color: const Color(0xFFA7D7C5),
                           width: 3,
                         ),
                         borderRadius: BorderRadius.circular(16),
@@ -135,7 +135,7 @@ class FinishSesion extends StatelessWidget {
                             "$completedCycles de $totalCycles",
                             style: GoogleFonts.patrickHand(
                               fontSize: 25,
-                              color: Color(0xFF7DC9A8),
+                              color: Color(0xFFA7D7C5),
                             ),
                           ),
                         ],
@@ -146,7 +146,7 @@ class FinishSesion extends StatelessWidget {
                       padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border.all(color: Colors.red, width: 3),
+                        border: Border.all(color: Color(0XFFFF5C5C), width: 3),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Column(
@@ -160,7 +160,7 @@ class FinishSesion extends StatelessWidget {
                             "$workTime min",
                             style: GoogleFonts.patrickHand(
                               fontSize: 25,
-                              color: Colors.red,
+                              color: Color(0xFFFF5C5C),
                             ),
                           ),
                         ],
@@ -169,7 +169,7 @@ class FinishSesion extends StatelessWidget {
                     SizedBox(height: 40),
                     PrimaryButton(
                       text: "¡Seguir trabajando!",
-                      color: const Color(0xFFA8C5B5),
+                      color: const Color(0xFFA7D7C5),
                       textStyle: GoogleFonts.patrickHand(
                         fontSize: 24,
                         color: Colors.white,
@@ -180,7 +180,7 @@ class FinishSesion extends StatelessWidget {
                     const SizedBox(height: 15),
                     PrimaryButton(
                       text: "Terminar sesión",
-                      color: const Color(0xFFE65A4F),
+                      color: const Color(0xFFFF5C5C),
                       textStyle: GoogleFonts.patrickHand(
                         fontSize: 24,
                         color: Colors.white,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro/models/history_record.dart';
-import 'package:pomodoro/screens/history_screen.dart';
 import 'package:pomodoro/screens/home_screen.dart';
+import 'package:pomodoro/screens/pomodoro_screen.dart';
 import 'package:pomodoro/services/database_service.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/pomodoro_button.dart';
@@ -53,6 +53,40 @@ class _FinishScreenState extends State<FinishScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const Initialsplash()),
+      );
+    }
+  }
+
+  Future<void> _saveAndRepeat() async {
+    String title = _titleController.text.trim();
+    if (title.isEmpty) title = "Sesión sin título";
+
+    String desc = _descController.text.trim();
+    int totalTime = widget.workTimePerCycle * widget.completedCycles;
+
+    final newRecord = HistoryRecord(
+      title: title,
+      description: desc,
+      date: DateTime.now(),
+      isCompleted: widget.completedCycles == widget.totalCycles,
+      cycles: "${widget.completedCycles}/${widget.totalCycles}",
+      totalTime: totalTime,
+      isPinned: false,
+    );
+
+    await DatabaseService.instance.insertRecord(newRecord);
+
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PomodoroScreen(
+            workTime: widget.workTimePerCycle,
+            breakTime: widget.breakTimePerCycle,
+            cycles: widget.totalCycles,
+            currentCycle: 1,
+          ),
+        ),
       );
     }
   }
@@ -281,7 +315,7 @@ class _FinishScreenState extends State<FinishScreen> {
                               color: Colors.white,
                               backgroundColor: Color(0xFFA7D7C5),
                               text: "Repetir sesión",
-                              onTap: () {},
+                              onTap: _saveAndRepeat,
                             ),
                           ),
 

@@ -4,6 +4,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:pomodoro/screens/pomodoro_screen.dart';
 import 'package:pomodoro/services/timer_service.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
+import 'package:pomodoro/widgets/tomato_timer.dart';
 import 'package:pomodoro/widgets/topBar.dart';
 import 'package:pomodoro/widgets/bottomControls.dart';
 import 'package:pomodoro/widgets/motivationCard.dart';
@@ -39,6 +40,8 @@ class _BreakScreenState extends State<BreakScreen> {
     super.initState();
     remainingSeconds = widget.breakTime * 60;
 
+    isRunning = true;
+
     _updateSubscription = FlutterBackgroundService().on('update').listen((
       event,
     ) {
@@ -59,6 +62,10 @@ class _BreakScreenState extends State<BreakScreen> {
         }
       },
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      startTimer();
+    });
   }
 
   void _handleBreakFinished() {
@@ -127,12 +134,13 @@ class _BreakScreenState extends State<BreakScreen> {
   void dispose() {
     _updateSubscription?.cancel();
     _finishSubscription?.cancel();
-    TimerService().pauseTimer();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final totalTime = widget.breakTime * 60;
+
     return Scaffold(
       body: NotebookBackground(
         overlayColor: const Color(0xFFF0FFF8),
@@ -173,21 +181,22 @@ class _BreakScreenState extends State<BreakScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      "assets/images/tomatoes/Tómate bebé.png",
-                      width: 120,
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    Text(
-                      formatTime(remainingSeconds),
-                      style: const TextStyle(
-                        fontSize: 40,
-                        color: Color(0xFF7DC9A8),
+                    SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: TomatoTimer(
+                        time: formatTime(remainingSeconds),
+                        progress: remainingSeconds / totalTime,
+                        color: Color(0xFFA7D7C5),
+                        emptyColor: Color(0xFFFFFFFF),
+                        imageStages: [
+                          "assets/images/tomatoes/Tómate bebé.png",
+                          "assets/images/tomatoes/tómate pub.png",
+                          "assets/images/tomatoes/t1.png",
+                          "assets/images/tomatoes/tómate viejo.png",
+                        ],
                       ),
                     ),
-
                     const SizedBox(height: 80),
 
                     const MotivationCard(),

@@ -21,7 +21,7 @@ class _InitialsplashState extends State<Initialsplash> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: const Color(0xFFE9E4DD),
+        backgroundColor: const Color(0xFFFFF8F0),
         body: NotebookBackground(
           child: SafeArea(
             child: SingleChildScrollView(
@@ -38,7 +38,14 @@ class _InitialsplashState extends State<Initialsplash> {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.red, width: 3),
-                        color: Colors.transparent,
+                        color: Color(0xFFFFF8F0),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            offset: Offset(4, 4),
+                            blurRadius: 0,
+                          ),
+                        ],
                       ),
                       child: Image.asset(
                         'assets/images/tomatoes/t1.png',

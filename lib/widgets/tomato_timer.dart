@@ -4,18 +4,28 @@ import 'package:google_fonts/google_fonts.dart';
 class TomatoTimer extends StatelessWidget {
   final String time;
   final double progress;
+  final Color color;
+  final Color emptyColor;
+  final List<String> imageStages;
 
-  const TomatoTimer({super.key, required this.time, required this.progress});
+  const TomatoTimer({
+    super.key,
+    required this.time,
+    required this.progress,
+    required this.color,
+    required this.emptyColor,
+    required this.imageStages,
+  });
 
   String getTomatoImage(double progress) {
     if (progress > 0.75) {
-      return "assets/images/tomatoes/t1.png";
+      return imageStages[0];
     } else if (progress > 0.5) {
-      return "assets/images/tomatoes/tómate 2.png";
+      return imageStages[1];
     } else if (progress > 0.25) {
-      return "assets/images/tomatoes/tómate 3.png";
+      return imageStages[2];
     } else {
-      return "assets/images/tomatoes/tómate 4.png";
+      return imageStages[3];
     }
   }
 
@@ -28,15 +38,22 @@ class TomatoTimer extends StatelessWidget {
         return Stack(
           alignment: Alignment.center,
           children: [
-            Container(
+            SizedBox(
               width: size,
               height: size,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: const Color(0xFFE65A4F),
-                  width: size * 0.07,
-                ),
+              child: TweenAnimationBuilder<double>(
+                tween: Tween<double>(end: progress),
+                duration: const Duration(seconds: 1),
+                curve: Curves.linear,
+                builder: (context, value, _) {
+                  return CircularProgressIndicator(
+                    value: value,
+                    strokeWidth: size * 0.07,
+                    backgroundColor: emptyColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(color),
+                    strokeCap: StrokeCap.round,
+                  );
+                },
               ),
             ),
 
@@ -58,7 +75,7 @@ class TomatoTimer extends StatelessWidget {
                   time,
                   style: GoogleFonts.patrickHand(
                     fontSize: size * 0.17,
-                    color: const Color(0xFFE65A4F),
+                    color: color,
                   ),
                 ),
               ],

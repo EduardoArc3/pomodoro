@@ -16,7 +16,7 @@ class BackButtonn extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: const Color(0xFFE8F5E9),
-            border: Border.all(color: const Color(0xFF4CAF50), width: 4),
+            border: Border.all(color: const Color(0xFF8BC9B3), width: 4),
 
             boxShadow: const [
               BoxShadow(
@@ -29,7 +29,7 @@ class BackButtonn extends StatelessWidget {
           child: const Icon(
             Icons.arrow_back,
             size: 20,
-            color: Color.fromARGB(255, 13, 156, 44),
+            color: Color(0xFF8BC9B3),
           ),
         ),
       ),

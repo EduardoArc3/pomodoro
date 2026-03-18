@@ -24,6 +24,9 @@ class CircleAction extends StatelessWidget {
           color: color,
           shape: BoxShape.circle,
           border: Border.all(color: Colors.black, width: 3),
+          boxShadow: [
+            BoxShadow(color: Colors.black, offset: Offset(4, 4), blurRadius: 0),
+          ],
         ),
         child: Text(
           text,

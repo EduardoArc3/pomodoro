@@ -23,7 +23,7 @@ class _SettingScreen extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE9E4DD),
+      backgroundColor: const Color(0xFFFFF8F0),
       body: NotebookBackground(
         child: SafeArea(
           child: Padding(
@@ -46,22 +46,34 @@ class _SettingScreen extends State<SettingScreen> {
                         );
                       },
                     ),
-                    iconClock(
-                      icon: Icons.history,
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HistoryScreen(),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            offset: Offset(3, 3),
+                            blurRadius: 0,
                           ),
-                        );
-                      },
+                        ],
+                      ),
+                      child: iconClock(
+                        icon: Icons.history,
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HistoryScreen(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 10),
-                Image.asset('assets/images/Logouson.png', width: 130),
+                Image.asset('assets/images/Logouson.png', width: 150),
                 const SizedBox(height: 10),
 
                 Text(
@@ -84,9 +96,9 @@ class _SettingScreen extends State<SettingScreen> {
                 Container(
                   padding: const EdgeInsets.all(17),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
+                    color: Colors.white.withValues(alpha: 0.95),
                     border: Border.all(
-                      color: const Color(0xFFE65A4F),
+                      color: const Color(0xFFFF5C5C),
                       width: 5,
                     ),
                     boxShadow: const [
@@ -104,7 +116,7 @@ class _SettingScreen extends State<SettingScreen> {
                         "Configura tu sesión",
                         style: GoogleFonts.patrickHand(
                           fontSize: 23,
-                          color: const Color(0xFFE65A4F),
+                          color: const Color(0xFFFF5C5C),
                         ),
                       ),
 
@@ -113,7 +125,7 @@ class _SettingScreen extends State<SettingScreen> {
                       TimeSection(
                         title: "Tiempo de trabajo (min)",
                         value: workTime,
-                        color: Colors.red,
+                        color: Color(0xFFFF5C5C),
                         onMinus: () {
                           setState(() {
                             if (workTime > 1) workTime--;
@@ -131,7 +143,7 @@ class _SettingScreen extends State<SettingScreen> {
                       TimeSection(
                         title: "Tiempo de descanso (min)",
                         value: breakTime,
-                        color: Colors.blue,
+                        color: Color(0xFF5DADE2),
                         onMinus: () {
                           setState(() {
                             if (breakTime > 1) breakTime--;
@@ -149,7 +161,7 @@ class _SettingScreen extends State<SettingScreen> {
                       TimeSection(
                         title: "Número de ciclos",
                         value: cycles,
-                        color: Colors.yellow.shade700,
+                        color: Color(0xFFF4D03F),
                         onMinus: () {
                           setState(() {
                             if (cycles > 1) cycles--;

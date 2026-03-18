@@ -44,6 +44,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
     remainingSeconds = widget.workTime * 60;
 
     currentCycle = widget.currentCycle;
+    isRunning = true;
 
     _updateSubscription = FlutterBackgroundService().on('update').listen((
       event,
@@ -76,6 +77,10 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
         }
       },
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      startTimer();
+    });
   }
 
   void startTimer() {
@@ -123,7 +128,6 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   void dispose() {
     _updateSubscription?.cancel();
     _finishSubscription?.cancel();
-    TimerService().pauseTimer();
     super.dispose();
   }
 
@@ -132,7 +136,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
     final totalTime = isBreak ? widget.breakTime * 60 : widget.workTime * 60;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFE9E4DD),
+      backgroundColor: const Color(0xFFFFF8F0),
       body: NotebookBackground(
         child: SafeArea(
           child: Stack(
@@ -159,6 +163,14 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
                       child: TomatoTimer(
                         time: formatTime(remainingSeconds),
                         progress: remainingSeconds / totalTime,
+                        color: const Color(0xFFFF5C5C),
+                        emptyColor: const Color(0xFFFFE0D0),
+                        imageStages: [
+                          "assets/images/tomatoes/t1.png",
+                          "assets/images/tomatoes/tómate 2.png",
+                          "assets/images/tomatoes/tómate 3.png",
+                          "assets/images/tomatoes/tómate 4.png",
+                        ],
                       ),
                     ),
 
