@@ -1,10 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pomodoro/models/history_record.dart';
+import 'package:pomodoro/services/database_service.dart';
+import 'package:pomodoro/utils/date_format.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
 import 'package:pomodoro/widgets/record.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  List<HistoryRecord> _records = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRecords();
+  }
+
+  Future<void> _loadRecords() async {
+    final data = await DatabaseService.instance.queryAllRecords();
+
+    setState(() {
+      _records = data;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _togglePin(HistoryRecord record) async {
+    bool newState = !record.isPinned;
+    await DatabaseService.instance.updatePinStatus(record.id!, newState);
+    await _loadRecords();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,25 +109,32 @@ class HistoryScreen extends StatelessWidget {
               const SizedBox(height: 30),
 
               Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  children: [
-                    Record(
-                      title: "prueba",
-                      date: "15 Mar 2026",
-                      completed: true,
-                      cycles: 4,
-                      totalTime: 100,
-                    ),
-                    Record(
-                      title: "ola",
-                      date: "17 Mar 2026",
-                      completed: false,
-                      cycles: "2/6",
-                      totalTime: 10,
-                    ),
-                  ],
-                ),
+                child: _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : _records.isEmpty
+                    ? Center(
+                        child: Text(
+                          "No hay sesiones registradas",
+                          style: GoogleFonts.patrickHand(fontSize: 20),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        itemCount: _records.length,
+                        itemBuilder: (context, index) {
+                          final record = _records[index];
+                          return Record(
+                            title: record.title,
+                            description: record.description,
+                            date: formatDate(record.date),
+                            completed: record.isCompleted,
+                            cycles: record.cycles,
+                            totalTime: record.totalTime,
+                            onPin: () => _togglePin(record),
+                            isPinned: record.isPinned,
+                          );
+                        },
+                      ),
               ),
 
               Container(
