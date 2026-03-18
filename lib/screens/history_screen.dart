@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pomodoro/widgets/notebook_background.dart';
+import 'package:pomodoro/widgets/record.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({super.key});
+class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,11 +12,193 @@ class SettingScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFE9E4DD),
       body: NotebookBackground(
         child: SafeArea(
-          child: Center(
-            child: Text(
-              "Aquí se mostrará el historial",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Color(0xFFE65A4F), width: 5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          offset: Offset(3, 3),
+                          blurRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: BackButton(color: Color(0xFFE65A4F)),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 5),
+
+              Transform.rotate(
+                angle: -0.05,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFB84D),
+                    border: Border.all(color: Colors.black, width: 5),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black,
+                        offset: Offset(5, 5),
+                        blurRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.calendar_today_outlined, color: Colors.white),
+                      SizedBox(width: 10.0),
+                      Text(
+                        "Historial",
+                        style: GoogleFonts.patrickHand(
+                          fontSize: 40,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  children: [
+                    Record(
+                      title: "prueba",
+                      date: "15 Mar 2026",
+                      completed: true,
+                      cycles: 4,
+                      totalTime: 100,
+                    ),
+                    Record(
+                      title: "ola",
+                      date: "17 Mar 2026",
+                      completed: false,
+                      cycles: "2/6",
+                      totalTime: 10,
+                    ),
+                  ],
+                ),
+              ),
+
+              Container(
+                margin: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.95),
+                  border: Border.all(color: Color(0xFFFFB84D), width: 5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      offset: Offset(4, 4),
+                      blurRadius: 0,
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      "Resumen Total",
+                      style: GoogleFonts.patrickHand(
+                        fontSize: 20,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    IntrinsicHeight(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                "16",
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 30,
+                                  color: Color(0xFFE65A4F),
+                                ),
+                              ),
+                              Text(
+                                "Ciclos",
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 20),
+                          VerticalDivider(
+                            color: Color(0xFFD1D5DC),
+                            thickness: 1,
+                          ),
+                          const SizedBox(width: 20),
+                          Column(
+                            children: [
+                              Text(
+                                "400",
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 30,
+                                  color: Color(0xFFFFB84D),
+                                ),
+                              ),
+                              Text(
+                                "Minutos",
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 20),
+                          VerticalDivider(
+                            color: Color(0xFFD1D5DC),
+                            thickness: 1,
+                          ),
+                          const SizedBox(width: 20),
+                          Column(
+                            children: [
+                              Text(
+                                "5",
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 30,
+                                  color: Color(0xFF00C950),
+                                ),
+                              ),
+                              Text(
+                                "Sesiones",
+                                style: GoogleFonts.patrickHand(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
