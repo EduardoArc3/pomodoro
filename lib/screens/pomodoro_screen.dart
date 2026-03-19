@@ -38,6 +38,18 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   StreamSubscription? _updateSubscription;
   StreamSubscription? _finishSubscription;
 
+  String getWorkText(double progress) {
+    if (progress > 0.75) {
+      return "¡Tú puedes!";
+    } else if (progress > 0.5) {
+      return "¡Enfócate!";
+    } else if (progress > 0.25) {
+      return "¡Pomodoro!";
+    } else {
+      return "¡Tomatizo!";
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -111,9 +123,9 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   }
 
   void goToHistory() {
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => HistoryScreen()),
+      MaterialPageRoute(builder: (_) => const HistoryScreen()),
     );
   }
 
@@ -134,6 +146,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
   @override
   Widget build(BuildContext context) {
     final totalTime = isBreak ? widget.breakTime * 60 : widget.workTime * 60;
+    final progress = remainingSeconds / totalTime;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFFF8F0),
@@ -176,7 +189,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
 
                     const SizedBox(height: 100),
 
-                    MotivationCard(),
+                    MotivationCard(text: getWorkText(progress)),
                   ],
                 ),
               ),

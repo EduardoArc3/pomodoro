@@ -26,11 +26,7 @@ class BackButtonn extends StatelessWidget {
             ],
           ),
 
-          child: const Icon(
-            Icons.arrow_back,
-            size: 20,
-            color: Color(0xFF8BC9B3),
-          ),
+          child: Icon(icon, size: 20, color: Color(0xFF8BC9B3)),
         ),
       ),
     );

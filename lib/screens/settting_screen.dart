@@ -61,7 +61,7 @@ class _SettingScreen extends State<SettingScreen> {
                       child: iconClock(
                         icon: Icons.history,
                         onTap: () {
-                          Navigator.pushReplacement(
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const HistoryScreen(),
@@ -133,7 +133,7 @@ class _SettingScreen extends State<SettingScreen> {
                         },
                         onPlus: () {
                           setState(() {
-                            workTime++;
+                            if (workTime < 60) workTime++;
                           });
                         },
                       ),
@@ -151,7 +151,7 @@ class _SettingScreen extends State<SettingScreen> {
                         },
                         onPlus: () {
                           setState(() {
-                            breakTime++;
+                            if (breakTime < 30) breakTime++;
                           });
                         },
                       ),
@@ -169,7 +169,7 @@ class _SettingScreen extends State<SettingScreen> {
                         },
                         onPlus: () {
                           setState(() {
-                            cycles++;
+                            if (cycles < 8) cycles++;
                           });
                         },
                       ),

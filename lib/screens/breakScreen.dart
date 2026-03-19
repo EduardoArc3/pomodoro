@@ -9,6 +9,7 @@ import 'package:pomodoro/widgets/topBar.dart';
 import 'package:pomodoro/widgets/bottomControls.dart';
 import 'package:pomodoro/widgets/motivationCard.dart';
 import 'package:pomodoro/screens/finish_screen.dart';
+import 'package:pomodoro/screens/history_screen.dart';
 
 class BreakScreen extends StatefulWidget {
   final int breakTime;
@@ -99,6 +100,7 @@ class _BreakScreenState extends State<BreakScreen> {
   }
 
   void startTimer() {
+    if (!isRunning) return;
     TimerService().startTimer(remainingSeconds);
   }
 
@@ -199,7 +201,11 @@ class _BreakScreenState extends State<BreakScreen> {
                     ),
                     const SizedBox(height: 80),
 
-                    const MotivationCard(),
+                    MotivationCard(
+                      text: "Descansa, papu",
+                      color: Color(0xFFA7D7C5),
+                      angle: -0.01,
+                    ),
                   ],
                 ),
               ),
@@ -211,7 +217,12 @@ class _BreakScreenState extends State<BreakScreen> {
                 child: BottomControls(
                   onReset: resetTimer,
                   onPlayPause: toggleTimer,
-                  onHistory: () {},
+                  onHistory: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HistoryScreen()),
+                    );
+                  },
                   isRunning: isRunning,
                 ),
               ),

@@ -88,12 +88,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: BackButton(
                       color: Color(0xFFE65A4F),
                       onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SettingScreen(),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                     ),
                   ),

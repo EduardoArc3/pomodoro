@@ -24,13 +24,7 @@ class TopBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        BackButtonn(
-          icon: Icons.arrow_back,
-          onTap: () {
-            TimerService().killService();
-            Navigator.pop(context);
-          },
-        ),
+        BackButtonn(icon: Icons.hourglass_top, onTap: () {}),
         CycleTop(currentCycle: currentCycle, totalCycles: totalCycles),
         CloseButtonn(
           onTap: () {

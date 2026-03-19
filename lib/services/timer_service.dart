@@ -49,7 +49,10 @@ class TimerService {
 
     if (!isRunning) {
       await service.startService();
-      await Future.delayed(const Duration(milliseconds: 500));
+
+      while (!(await service.isRunning())) {
+        await Future.delayed(const Duration(milliseconds: 50));
+      }
     }
 
     service.invoke('setTimer', {'seconds': seconds});
