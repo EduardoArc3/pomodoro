@@ -143,6 +143,7 @@ class _BreakScreenState extends State<BreakScreen> {
   Widget build(BuildContext context) {
     final totalTime = widget.breakTime * 60;
     return PopScope(
+      canPop: false,
       child: Scaffold(
         body: NotebookBackground(
           overlayColor: const Color(0xFFF0FFF8),

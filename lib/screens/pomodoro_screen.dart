@@ -149,6 +149,7 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
     final progress = remainingSeconds / totalTime;
 
     return PopScope(
+      canPop: false,
       child: Scaffold(
         backgroundColor: const Color(0xFFFFF8F0),
         body: NotebookBackground(
