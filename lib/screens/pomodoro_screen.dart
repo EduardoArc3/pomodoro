@@ -148,64 +148,66 @@ class _PomodoroScreenState extends State<PomodoroScreen> {
     final totalTime = isBreak ? widget.breakTime * 60 : widget.workTime * 60;
     final progress = remainingSeconds / totalTime;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFFFF8F0),
-      body: NotebookBackground(
-        child: SafeArea(
-          child: Stack(
-            children: [
-              Positioned(
-                top: 10,
-                left: 20,
-                right: 20,
-                child: TopBar(
-                  currentCycle: currentCycle,
-                  totalCycles: widget.cycles,
-                  workTimePerCycle: widget.workTime,
-                  breakTimePerCycle: widget.breakTime,
+    return PopScope(
+      child: Scaffold(
+        backgroundColor: const Color(0xFFFFF8F0),
+        body: NotebookBackground(
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                  child: TopBar(
+                    currentCycle: currentCycle,
+                    totalCycles: widget.cycles,
+                    workTimePerCycle: widget.workTime,
+                    breakTimePerCycle: widget.breakTime,
+                  ),
                 ),
-              ),
 
-              Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      height: 300,
-                      child: TomatoTimer(
-                        time: formatTime(remainingSeconds),
-                        progress: remainingSeconds / totalTime,
-                        color: const Color(0xFFFF5C5C),
-                        emptyColor: const Color(0xFFFFE0D0),
-                        imageStages: [
-                          "assets/images/tomatoes/t1.png",
-                          "assets/images/tomatoes/tómate 2.png",
-                          "assets/images/tomatoes/tómate 3.png",
-                          "assets/images/tomatoes/tómate 4.png",
-                        ],
+                Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 300,
+                        height: 300,
+                        child: TomatoTimer(
+                          time: formatTime(remainingSeconds),
+                          progress: remainingSeconds / totalTime,
+                          color: const Color(0xFFFF5C5C),
+                          emptyColor: const Color(0xFFFFE0D0),
+                          imageStages: [
+                            "assets/images/tomatoes/t1.png",
+                            "assets/images/tomatoes/tómate 2.png",
+                            "assets/images/tomatoes/tómate 3.png",
+                            "assets/images/tomatoes/tómate 4.png",
+                          ],
+                        ),
                       ),
-                    ),
 
-                    const SizedBox(height: 100),
+                      const SizedBox(height: 100),
 
-                    MotivationCard(text: getWorkText(progress)),
-                  ],
+                      MotivationCard(text: getWorkText(progress)),
+                    ],
+                  ),
                 ),
-              ),
 
-              Positioned(
-                bottom: 70,
-                left: 20,
-                right: 20,
-                child: BottomControls(
-                  onReset: resetTimer,
-                  onPlayPause: toggleTimer,
-                  onHistory: goToHistory,
-                  isRunning: isRunning,
+                Positioned(
+                  bottom: 70,
+                  left: 20,
+                  right: 20,
+                  child: BottomControls(
+                    onReset: resetTimer,
+                    onPlayPause: toggleTimer,
+                    onHistory: goToHistory,
+                    isRunning: isRunning,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

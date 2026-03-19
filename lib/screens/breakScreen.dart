@@ -142,91 +142,94 @@ class _BreakScreenState extends State<BreakScreen> {
   @override
   Widget build(BuildContext context) {
     final totalTime = widget.breakTime * 60;
-
-    return Scaffold(
-      body: NotebookBackground(
-        overlayColor: const Color(0xFFF0FFF8),
-        child: SafeArea(
-          child: Stack(
-            children: [
-              Positioned(
-                top: 60,
-                left: 10,
-                child: Image.asset(
-                  "assets/images/tomatoes/hojota.png",
-                  width: 100,
+    return PopScope(
+      child: Scaffold(
+        body: NotebookBackground(
+          overlayColor: const Color(0xFFF0FFF8),
+          child: SafeArea(
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 60,
+                  left: 10,
+                  child: Image.asset(
+                    "assets/images/tomatoes/hojota.png",
+                    width: 100,
+                  ),
                 ),
-              ),
 
-              Positioned(
-                top: 180,
-                right: 40,
-                child: Image.asset(
-                  "assets/images/tomatoes/hojita.png",
-                  width: 40,
+                Positioned(
+                  top: 180,
+                  right: 40,
+                  child: Image.asset(
+                    "assets/images/tomatoes/hojita.png",
+                    width: 40,
+                  ),
                 ),
-              ),
 
-              Positioned(
-                top: 10,
-                left: 20,
-                right: 20,
-                child: TopBar(
-                  currentCycle: widget.currentCycle,
-                  totalCycles: widget.totalCycles,
-                  workTimePerCycle: widget.workTime,
-                  breakTimePerCycle: widget.breakTime,
+                Positioned(
+                  top: 10,
+                  left: 20,
+                  right: 20,
+                  child: TopBar(
+                    currentCycle: widget.currentCycle,
+                    totalCycles: widget.totalCycles,
+                    workTimePerCycle: widget.workTime,
+                    breakTimePerCycle: widget.breakTime,
+                  ),
                 ),
-              ),
 
-              Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(
-                      width: 300,
-                      height: 300,
-                      child: TomatoTimer(
-                        time: formatTime(remainingSeconds),
-                        progress: remainingSeconds / totalTime,
-                        color: Color(0xFFA7D7C5),
-                        emptyColor: Color(0xFFFFFFFF),
-                        imageStages: [
-                          "assets/images/tomatoes/Tómate bebé.png",
-                          "assets/images/tomatoes/tómate pub.png",
-                          "assets/images/tomatoes/t1.png",
-                          "assets/images/tomatoes/tómate viejo.png",
-                        ],
+                Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 300,
+                        height: 300,
+                        child: TomatoTimer(
+                          time: formatTime(remainingSeconds),
+                          progress: remainingSeconds / totalTime,
+                          color: Color(0xFFA7D7C5),
+                          emptyColor: Color(0xFFFFFFFF),
+                          imageStages: [
+                            "assets/images/tomatoes/babyy.png",
+                            "assets/images/tomatoes/tómate pub.png",
+                            "assets/images/tomatoes/t1.png",
+                            "assets/images/tomatoes/tómate viejo.png",
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 80),
+                      const SizedBox(height: 80),
 
-                    MotivationCard(
-                      text: "Descansa, papu",
-                      color: Color(0xFFA7D7C5),
-                      angle: -0.01,
-                    ),
-                  ],
+                      MotivationCard(
+                        text: "Descansa, papu",
+                        color: Color(0xFFA7D7C5),
+                        angle: -0.01,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
 
-              Positioned(
-                bottom: 70,
-                left: 20,
-                right: 20,
-                child: BottomControls(
-                  onReset: resetTimer,
-                  onPlayPause: toggleTimer,
-                  onHistory: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const HistoryScreen()),
-                    );
-                  },
-                  isRunning: isRunning,
+                Positioned(
+                  bottom: 70,
+                  left: 20,
+                  right: 20,
+                  child: BottomControls(
+                    onReset: resetTimer,
+                    onPlayPause: toggleTimer,
+                    onHistory: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HistoryScreen(),
+                        ),
+                      );
+                    },
+                    isRunning: isRunning,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
